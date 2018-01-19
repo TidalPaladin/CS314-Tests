@@ -276,25 +276,26 @@ public class CodeCamp {
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board.length; j++) {
-                if( j == 'q') {
+                if( board[i][j] == 'q') {
                     queen_positions[queen][0] = i;
                     queen_positions[queen][1] = j;
+                    queen++;
                 }
             }
         }
 
         System.out.println("Found " + queen_count + "queens");
-
+       
         /* Can any attack eachother */
         for(int i = 0; i < queen_positions.length; i++) {
-            for(int j = i; j < queen_positions.length; j++) {
+            for(int j = i + 1; j < queen_positions.length; j++) {
                 if( queen_positions[i][0] == queen_positions[j][0] ) return false;
                 if( queen_positions[i][1] == queen_positions[j][1] ) return false;
 
                 /* Check if slope is +-1 to indicate diagonal*/
                 final int delta_y = queen_positions[i][1] - queen_positions[j][1];
                 final int delta_x = queen_positions[i][0] - queen_positions[j][0];
-                if( Math.abs( delta_y / delta_x) == 1 ) return false;
+                if( Math.abs( delta_y ) == Math.abs( delta_x ) ) return false;
             }
         }
 
