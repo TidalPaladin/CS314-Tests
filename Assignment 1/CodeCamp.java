@@ -283,8 +283,6 @@ public class CodeCamp {
                 }
             }
         }
-
-        System.out.println("Found " + queen_count + "queens");
        
         /* Can any attack eachother */
         for(int i = 0; i < queen_positions.length; i++) {
