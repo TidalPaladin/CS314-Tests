@@ -120,6 +120,11 @@ public class CodeCamp {
 
         /**
          * We dont need to check strings whose length is less than the current maximum vowel count
+         * We dont need to check letters that fall outside of the ASCII band of vowels ie 65-117
+         *  i > 65 && i < 85 || i > 97 && i < 117
+         * This means only 40 different characters need to be searched fully 
+         *  
+         * All the vowels are odd ASCII values
          * 
          * Let vowels.length = V
          * Let average vowels[i].length = L
@@ -140,8 +145,12 @@ public class CodeCamp {
 
         /* Declarations */
         int ret = 0, most_vowels = 0;
-        final char vowels[] = { 'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u' };
-
+        final int upper_to_lower = 97 - 65;
+        final char vowels[] = { 'A', 'E', 'I', 'O', 'U' };
+        final int vowels_int[] = {65, 69, 73, 79, 85, 97, 101, 105, 111, 117};
+        final int vowel_delta[] = { 4, 4, 6, 6, 12, 4, 4, 6, 6 };
+        final int vowel_lienar[] = { 0, 4, 10, 16, 28, 32, 36, 42, 48 };
+        final int vowel_middle = 91;
         /* Iterate over all strings in list */
         for(int i = 0; i < list.length; i++) {
 
