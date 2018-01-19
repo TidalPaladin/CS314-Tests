@@ -63,8 +63,8 @@ public class CodeCamp {
         // 1, 3, 2, 8               2, 2, 2, 8
         // 1, 9, 4, 64 = 78         4, 4, 4, 64 = 76
 
-        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           /* Maybe Finished - T(n) ~= N */
-        if(listA.length != listB.length) return false;      /* Permutations must be the same length */
+        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/                   /* Maybe Finished - T(n) ~= N */
+        if(listA.length != listB.length) return false;              /* Permutations must be the same length */
 
         /* Compute the mean and standard deviation of listA */
         double listA_mean = mean(listA);
@@ -261,40 +261,47 @@ public class CodeCamp {
             		"and may only contain 'q's and '.'s");        
                 
         //CS314 STUDENTS: ADD YOUR CODE HERE
-        int len = board[0].length;          // Use on length, board is square
-        int queen1_x = -1, queen1_y = -1;
-        boolean safe = true;
 
-        /* Find a queen with a linear search T(n) = 5n */
-        for(int i = 0; i < len && queen1_x != -1; i++)
-            for(int j = 0; j < len && queen1_y != -1; j++) {
-                if(board[i][j] == 'q') {
-                    queen1_x = i;
-                    queen1_y = j;
-                }
+        /* How many queens are there - no dynamic allocation of positions */
+        int queen_count = 0;
+        for(int i = 0; i < board.length; i++) {
+            for(char j : board[i]) {
+                if( j == 'q') queen_count++;
             }
-
-        for(int base = 0; base < len; base++) {
-          
         }
 
-        /* See if another queen is attackable by the first queen */
+        /* Where is each queen */
+        int[][] queen_positions = new int[queen_count][2];
+        int queen = 0;
 
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board.length; j++) {
+                if( j == 'q') {
+                    queen_positions[queen][0] = i;
+                    queen_positions[queen][1] = j;
+                }
+            }
+        }
 
-        return false; //must change
+        System.out.println("Found " + queen_count + "queens");
+
+        /* Can any attack eachother */
+        for(int i = 0; i < queen_positions.length; i++) {
+            for(int j = i; j < queen_positions.length; j++) {
+                if( queen_positions[i][0] == queen_positions[j][0] ) return false;
+                if( queen_positions[i][1] == queen_positions[j][1] ) return false;
+
+                /* Check if slope is +-1 to indicate diagonal*/
+                final int delta_y = queen_positions[i][1] - queen_positions[j][1];
+                final int delta_x = queen_positions[i][0] - queen_positions[j][0];
+                if( Math.abs( delta_y / delta_x) == 1 ) return false;
+            }
+        }
+
+        return true;
     }
 
-    /* Are the two queens able to attack eachother */
-    private static boolean queenScan(int x1, int y1, int x2, int y2) {
-       // return x1 == x2 || y1 == y2 || abs( (y2-y1) / (x2 - x1) ) == 1;
-       return false;
-    }
-
-    private static boolean queenScan2(int x, int y, int length) {
-        return false;
-    }
-
-    
+   
     
     /**
      * Given a 2D array of ints return the value of the
