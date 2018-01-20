@@ -299,7 +299,7 @@ public class CodeCamp {
             }
         }
        
-        /* Can any attack eachother */
+        /* Can any queen attack another queen */
         for(int i = 0; i < queen_positions.length; i++) {
             for(int j = i + 1; j < queen_positions.length; j++) {
 
