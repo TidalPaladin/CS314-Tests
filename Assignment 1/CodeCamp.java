@@ -338,15 +338,43 @@ public class CodeCamp {
         
 
         //CS314 STUDENTS: ADD YOUR CODE HERE
+        int max_value = city[0][0];
+        int t = max_value;
 
-        /* Find a valid block */
+        /* Try every possible rectangle size */
+        for(int rect_row = 1; rect_row < city.length; rect_row++) {
+            for(int rect_col = 1; rect_col < city[0].length; rect_col++) {
+
+                /* Try every possible position for the rectangle */
+                for(int row = 0; row + rect_col < city.length; row++) {
+                    for(int col = 0; col + rect_row < city[0].length; col++) {
+
+                        int value = valueOfPlot(city, row, col, rect_col, rect_row);
+                        if(value > max_value) max_value = value;
+
+                    }
+                }
+
+
+            }
+        }
 
 
         /* Find the boundaries of that block
 
         /* Compute value of that block and compare with last known highest */
 
-        return -1; //must change
+        return max_value;
+    }
+
+    private static int valueOfPlot(int[][] city, int x, int y, int xl, int yl) {
+        int ret = 0;
+        for(int row = x; row < x + xl; row++) {
+            for(int col = y; col < y + yl; col++) {
+                ret += city[row][col];
+            }
+        }
+        return ret;
     }
     
     
