@@ -228,11 +228,13 @@ public class CodeCamp {
          * T(n) ~ numDaysInYear
          * 
          */
+        /*
         while(numPeople > 0) {
             int assign = r.nextInt(numPeople) + 1;              // Pick a random number of people to assign this birthday
             birthdays[r.nextInt(numDaysInYear)] += assign;      // Pick a random birthday to assign to
             numPeople -= assign;                                // Shrink sample size to those with an unchosen birthday
         }
+        */
 
          /** 
          * For a given number of people who share a birthday:\
@@ -297,13 +299,15 @@ public class CodeCamp {
             }
         }
        
-        /* Can any attack eachother */
+        /* Can any queen attack another queen */
         for(int i = 0; i < queen_positions.length; i++) {
             for(int j = i + 1; j < queen_positions.length; j++) {
+
+                /* Check left/right/up/down */
                 if( queen_positions[i][0] == queen_positions[j][0] ) return false;
                 if( queen_positions[i][1] == queen_positions[j][1] ) return false;
 
-                /* Check if slope is +-1 to indicate diagonal*/
+                /* Check if slope is +-1 to indicate diagonal */
                 final int delta_y = queen_positions[i][1] - queen_positions[j][1];
                 final int delta_x = queen_positions[i][0] - queen_positions[j][0];
                 if( Math.abs( delta_y ) == Math.abs( delta_x ) ) return false;
