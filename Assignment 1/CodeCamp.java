@@ -145,28 +145,41 @@ public class CodeCamp {
 
         /* Declarations */
         int ret = 0, most_vowels = 0;
-        final int upper_to_lower = 97 - 65;
+        final byte upper_to_lower = 97 - 65;
         final char vowels[] = { 'A', 'E', 'I', 'O', 'U' };
-        final int vowels_int[] = {65, 69, 73, 79, 85, 97, 101, 105, 111, 117};
-        final int vowel_delta[] = { 4, 4, 6, 6, 12, 4, 4, 6, 6 };
-        final int vowel_lienar[] = { 0, 4, 10, 16, 28, 32, 36, 42, 48 };
-        final int vowel_middle = 91;
+
+        /* Start from the first non null */
+        while( list[ret] == null && ret < list.length ) {
+            ret++;
+        }
+       
         /* Iterate over all strings in list */
-        for(int i = 0; i < list.length; i++) {
+        for(int i = ret; i < list.length; i++) {
 
-            if( list[i] == null ) continue;           /* Skip null strings */
-            int count = 0;
-            char char_array[] = list[i].toCharArray();    /* Make char array from string */
+            /* Skip null strings && strings shorter than current max vowel count */
+            if( list[i] == null || list[i].length() < most_vowels ) continue;               
+            
+            /* Break the string into a char array */
+            int current_string_vowels = 0;
+            final char char_array[] = list[i].toCharArray();
 
-            /* Iterate over all characters in a string */
+            /* Iterate over all characters in the char array */
             for(char c : char_array) {
-                if( contains(vowels, c) ) count++;
+
+                /* If the ASCII char cant possibly be a vowel, skip it */
+                if( c < 65 || c > 117 || (c > 85 && c < 97) ) continue;
+                
+                /* Otherwise, check if the char is a vowel, upper or lower case */
+                for( char v : vowels ) {
+                    if( ( c == v ) || ( c == v + upper_to_lower ) )
+                        current_string_vowels++;
+                }
             }
 
             /* Check if we found more vowels on this string */
-            if( count > most_vowels ) {
-                most_vowels = count;    /* Update the max vowel number */
-                ret = i;     /* Track index of most voweled string */
+            if( current_string_vowels > most_vowels ) {
+                most_vowels = current_string_vowels;
+                ret = i;
             }
             
         }
