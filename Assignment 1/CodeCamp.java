@@ -341,13 +341,15 @@ public class CodeCamp {
         int max_value = city[0][0];
         int t = max_value;
 
+        /* We can use inclusive bounds on for loops because valueOfPlot is exclusive */
+
         /* Try every possible rectangle size */
-        for(int rect_row = 1; rect_row < city.length; rect_row++) {
-            for(int rect_col = 1; rect_col < city[0].length; rect_col++) {
+        for(int rect_row = 1; rect_row <= city[0].length; rect_row++) {
+            for(int rect_col = 1; rect_col <= city.length; rect_col++) {
 
                 /* Try every possible position for the rectangle */
-                for(int row = 0; row + rect_col < city.length; row++) {
-                    for(int col = 0; col + rect_row < city[0].length; col++) {
+                for(int row = 0; row + rect_col <= city.length; row++) {
+                    for(int col = 0; col + rect_row <= city[0].length; col++) {
 
                         int value = valueOfPlot(city, row, col, rect_col, rect_row);
                         if(value > max_value) max_value = value;
