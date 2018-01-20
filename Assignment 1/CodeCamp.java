@@ -339,11 +339,9 @@ public class CodeCamp {
 
         //CS314 STUDENTS: ADD YOUR CODE HERE
         int max_value = city[0][0];
-        int t = max_value;
 
         /* We can use inclusive bounds on for loops because valueOfPlot is exclusive */
-
-        /* Try every possible rectangle size */
+        /* Try every possible rectangle size, minimum 1x1 */
         for(int rect_row = 1; rect_row <= city[0].length; rect_row++) {
             for(int rect_col = 1; rect_col <= city.length; rect_col++) {
 
@@ -351,24 +349,30 @@ public class CodeCamp {
                 for(int row = 0; row + rect_col <= city.length; row++) {
                     for(int col = 0; col + rect_row <= city[0].length; col++) {
 
+                        /* Calculate subplot value and see if its the known biggest */
                         int value = valueOfPlot(city, row, col, rect_col, rect_row);
                         if(value > max_value) max_value = value;
 
                     }
                 }
 
-
             }
         }
-
-
-        /* Find the boundaries of that block
-
-        /* Compute value of that block and compare with last known highest */
 
         return max_value;
     }
 
+    /**
+     * @brief Calculates the value of a subplot
+     * 
+     * @param city The master plot
+     * @param x The smallest row index of the subplot
+     * @param y The smallest column index of the subplot
+     * @param xl The length of the subplot row
+     * @param yl The length of the subplot column
+     * 
+     * @return The value of the subplot
+     */
     private static int valueOfPlot(int[][] city, int x, int y, int xl, int yl) {
         int ret = 0;
         for(int row = x; row < x + xl; row++) {
