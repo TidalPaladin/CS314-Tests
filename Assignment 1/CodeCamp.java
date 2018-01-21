@@ -58,38 +58,47 @@ public class CodeCamp {
         if (listA == null || listB == null) 
             throw new IllegalArgumentException("Violation of precondition: " +
                     "isPermutation. neither parameter may equal null.");
-           
-                    
-        // 1, 3, 2, 8               2, 2, 2, 8
-        // 1, 9, 4, 64 = 78         4, 4, 4, 64 = 76
 
-        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           /* Maybe Finished - T(n) ~= N */
+        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
-        /* Compute the mean and standard deviation of listA */
-        double listA_mean = mean(listA);
-        double listA_stdev = stdev(listA, listA_mean);
-
-        /* Compute the mean and standard deviation of listB */
-        double listB_mean = mean(listB);
-        double listB_stdev = stdev(listB, listB_mean);
-
-        return listA_mean == listB_mean && listA_stdev == listB_stdev;
+        /* Will this have collisions? */
+        return hashArray(listA) == hashArray(listB);
 
     }
     
-    private static double mean(int[] list) {
-        int ret = 0;
-        for(int i : list) { ret += i; }
-        return ret / list.length;
+    /**
+     * @brief Calculates a hash value for an int using bitwise operations
+     * @note Java fixes the size of an int to 32 bits
+     * 
+     * @param num The int to be hashed
+     * 
+     * @return A hash value for the given int
+     */
+    private static long hashInt(int num) {
+        long ret = 0;
+        for(int i = 0; i < 32; i++) {
+            int shifted_val = i & ( (num >> i) & 0x01 );
+            ret += shifted_val * Math.pow(31, i);           /* Choose 31 based on documentation for java string class */
+        }
+        return ret;
     }
 
-    private static double stdev(int[] list, double mean) {
-        int ret = 0;
-        for(int i : list) { ret += Math.pow(i - mean, 2) / list.length;  }
-        return Math.sqrt(ret);
+
+    /**
+     * @brief Calculates a hash value for an array
+     * 
+     * @param list The array to be hashed
+     * 
+     * @return The hash value
+     */
+    private static long hashArray(int[] list) {
+        long ret = 0;
+        for(int i : list) { ret += hashInt(i); }
+        return ret;
     }
-    
+
+
     /**
      * Determine the index of the String that 
      * has the largest number of vowels. 
