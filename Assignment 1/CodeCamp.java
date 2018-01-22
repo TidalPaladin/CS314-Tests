@@ -254,6 +254,54 @@ public class CodeCamp {
 
 
     /**
+     * @brief Runs the shared birthdays experiment with the values specified in
+     * the assignment
+     * 
+     * @return The average number of pairs who share a birthday
+     * 
+     */
+    public static long runBirthdayExperiment() {
+        final int n = 1000000, days = 365, people = 182;
+        long ret = 0;
+
+        for(int i = 0; i < n; i++) { ret += sharedBirthdays(people, days); }
+
+        return ret / n;
+
+    }
+
+
+    /**
+     * @brief Runs the shared birthdays experiment with v
+     * 
+     * 
+     * 
+     */
+    public static void runBirthdayExperiment2() {
+
+        final int n = 50000, days = 365;
+
+        for(int i = 2; i <= 100; i++) { 
+            
+            int has_shared_birthday = 0;
+            for(int j = 0; j < n; j++) {
+                if( sharedBirthdays(i, days) > 0 ) { has_shared_birthday++; }
+            }
+
+            System.out.printf(
+                "Num people: %d number of experiments with one or more shared birthday: %d, percentage: %f%n",
+                i,
+                has_shared_birthday,
+                (double)has_shared_birthday / n
+            );
+
+        }
+
+
+    }
+
+
+    /**
      * @brief Finds the number of unique pairs from a set
      * 
      * @details Unique pairings are computed using the binomial equation
