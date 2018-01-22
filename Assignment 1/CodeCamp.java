@@ -58,38 +58,43 @@ public class CodeCamp {
         if (listA == null || listB == null) 
             throw new IllegalArgumentException("Violation of precondition: " +
                     "isPermutation. neither parameter may equal null.");
-           
-                    
-        // 1, 3, 2, 8               2, 2, 2, 8
-        // 1, 9, 4, 64 = 78         4, 4, 4, 64 = 76
 
-        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           /* Maybe Finished - T(n) ~= N */
+        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
-        /* Compute the mean and standard deviation of listA */
-        double listA_mean = mean(listA);
-        double listA_stdev = stdev(listA, listA_mean);
-
-        /* Compute the mean and standard deviation of listB */
-        double listB_mean = mean(listB);
-        double listB_stdev = stdev(listB, listB_mean);
-
-        return listA_mean == listB_mean && listA_stdev == listB_stdev;
+        /* Will this have collisions? */
+        for(int i = 0; i < 32; i++) {
+            if( hashArray(listA, i) != hashArray(listB, i) ) return false;
+        }
+        return true;
 
     }
     
-    private static double mean(int[] list) {
-        int ret = 0;
-        for(int i : list) { ret += i; }
-        return ret / list.length;
+    /**
+     * @brief Calculates a hash value for an int using bitwise operations
+     * @note Java fixes the size of an int to 32 bits
+     * 
+     * @param num The int to be hashed
+     * 
+     * @return A hash value for the given int
+     */
+
+
+
+    /**
+     * @brief Calculates a hash value for an array
+     * 
+     * @param list The array to be hashed
+     * 
+     * @return The hash value
+     */
+    private static long hashArray(int[] list, int bit) {
+        long ret = 0x00;
+        for(int i = 0; i < list.length; i++) { ret += (list[i] >> bit) & 0x01; }
+        return ret;
     }
 
-    private static double stdev(int[] list, double mean) {
-        int ret = 0;
-        for(int i : list) { ret += Math.pow(i - mean, 2) / list.length;  }
-        return Math.sqrt(ret);
-    }
-    
+
     /**
      * Determine the index of the String that 
      * has the largest number of vowels. 

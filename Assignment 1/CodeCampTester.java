@@ -26,16 +26,56 @@ public class CodeCampTester {
 
     public static void main(String[] args){
         final String newline = System.getProperty("line.separator");
+        Random r = new Random();
 
         
         // CS314 Students: add tests here.
         String test_header;
         boolean expectedBool, actualBool;
         int[] a, b;
+        final int perm_tries = 100;
 
+        /* isPermutation() test 2 - randomized true stress test */
+        for(int x = 0; x < perm_tries; x++) {
+        test_header = "isPermutation() test 1 - randomized true stress test";
+        final int perm_size = 100000;
+        
+        int[] rperm_1 = new int[perm_size];
+        int[] rperm_2 = new int[perm_size];
+        expectedBool = true;
+
+        for(int i = 0; i < perm_size; i++) {
+            rperm_1[i] = r.nextInt();
+            rperm_2[i] = rperm_1[i];
+        }
+
+        for(int i = 0; i < perm_size; i++) {
+            int temp = rperm_1[i];
+            int random_i = r.nextInt(perm_size);
+            rperm_1[i] = rperm_1[random_i];
+            rperm_1[random_i] = temp; 
+        }
+
+        actualBool = CodeCamp.isPermutation(rperm_1, rperm_2);
+        System.out.println(newline + test_header);
+        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
+        printResult(test_header, expectedBool, actualBool);
+
+
+        /* isPermutation() test 2 - randomized false stress test */
+        test_header = "isPermutation() test 2 - randomized false stress test";
+        expectedBool = false;
+        for(int i = 0; i < perm_size; i++) { rperm_1[i] = r.nextInt(); }
+
+        actualBool = CodeCamp.isPermutation(rperm_1, rperm_2);
+        System.out.println(newline + test_header);
+        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
+        printResult(test_header, expectedBool, actualBool);
+        }
 
         /* isPermutation() test 1 - mean / standard deviation */
-        test_header = "isPermutation() test 1 - mean and standard deviation";
+        /* This test is good at tripping up mean/stdev or hash based approaches */
+        test_header = "isPermutation() test 3 - mean and standard deviation";
         int[] perm1 = { 8, 8, 8, 0 };
         int[] perm2 = { 4, 4, 4, 12 };
         expectedBool = false;
@@ -100,6 +140,6 @@ public class CodeCampTester {
 
     private static void printResult(String header, boolean expected, boolean actual) {
         System.out.print( expected == actual ? "Passed test: " : " ***** FAILED *****" );
-        System.out.println(header);
+        System.out.println("\t" + header);
     }
 }
