@@ -62,31 +62,22 @@ public class CodeCamp {
         /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
-        /* Will this have collisions? */
+        /* Check if arrays are different by looking at the sum of bits for bit index 0-31 */
         for(int i = 0; i < 32; i++) {
             if( hashArray(listA, i) != hashArray(listB, i) ) return false;
         }
         return true;
 
     }
-    
-    /**
-     * @brief Calculates a hash value for an int using bitwise operations
-     * @note Java fixes the size of an int to 32 bits
-     * 
-     * @param num The int to be hashed
-     * 
-     * @return A hash value for the given int
-     */
-
-
 
     /**
-     * @brief Calculates a hash value for an array
+     * @brief Calculates a hash value for an array at a given bit index.
+     * 
      * 
      * @param list The array to be hashed
+     * @param bit The bit index 0-31 to be summed across the array
      * 
-     * @return The hash value
+     * @return The sum of the bits at the given index over all array elements
      */
     private static long hashArray(int[] list, int bit) {
         long ret = 0x00;
