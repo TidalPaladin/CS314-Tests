@@ -141,9 +141,7 @@ public class CodeCamp {
 
         /* Declarations */
         int ret = 0, most_vowels = 0;
-        final byte upper_to_lower = 97 - 65;
-        final char vowels[] = { 'A', 'E', 'I', 'O', 'U' };
-
+        
         /* Start from the first non null */
         while( list[ret] == null && ret < list.length ) {
             ret++;
@@ -154,27 +152,11 @@ public class CodeCamp {
 
             /* Skip null strings && strings shorter than current max vowel count */
             if( list[i] == null || list[i].length() < most_vowels ) continue;               
-            
-            /* Break the string into a char array */
-            int current_string_vowels = 0;
-            final char char_array[] = list[i].toCharArray();
-
-            /* Iterate over all characters in the char array */
-            for(char c : char_array) {
-
-                /* If the ASCII char cant possibly be a vowel, skip it */
-                if( c < 65 || c > 117 || (c > 85 && c < 97) ) continue;
-                
-                /* Otherwise, check if the char is a vowel, upper or lower case */
-                for( char v : vowels ) {
-                    if( ( c == v ) || ( c == v + upper_to_lower ) )
-                        current_string_vowels++;
-                }
-            }
-
+           
             /* Check if we found more vowels on this string */
-            if( current_string_vowels > most_vowels ) {
-                most_vowels = current_string_vowels;
+            int vowels = vowelsInString(list[i]);
+            if( vowels > most_vowels ) {
+                most_vowels = vowels;
                 ret = i;
             }
             
@@ -182,7 +164,37 @@ public class CodeCamp {
 
         return ret;
     }
-    
+
+
+    /**
+     * @brief Gets the number of vowels in a string
+     * 
+     * 
+     * @param str The string
+     * 
+     * @return The number of upper or lowercase vowels in str
+     */
+    private static int vowelsInString(String str) {
+        final char vowels[] = { 'A', 'E', 'I', 'O', 'U' };
+        final byte upper_to_lower = 97 - 65;
+        final char char_array[] = str.toCharArray();
+        int ret = 0;
+
+        /* Iterate over all characters in the char array */
+        for(char c : char_array) {
+
+            /* Save some time by skipping chars that cant possibly be vowels */
+            if( c < 65 || c > 117 || (c > 85 && c < 97) ) continue;
+            
+            /* Otherwise, check if the char is a vowel, upper or lower case */
+            for( char v : vowels ) {
+                if( ( c == v ) || ( c == v + upper_to_lower ) )
+                    ret++;
+            }
+        }
+
+        return ret;        
+    }
 
     
     /**
