@@ -63,7 +63,8 @@ public class CodeCamp {
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
         /* Check if arrays are different by looking at the sum of bits for bit index 0-31 */
-        for(int i = 0; i < 32; i++) {
+        final int sizeof_int = 32;
+        for(int i = 0; i < sizeof_int; i++) {
             if( hashArray(listA, i) != hashArray(listB, i) ) return false;
         }
         return true;
@@ -79,8 +80,8 @@ public class CodeCamp {
      * 
      * @return The sum of the bits at the given index over all array elements
      */
-    private static long hashArray(int[] list, int bit) {
-        long ret = 0x00;
+    private static int hashArray(int[] list, int bit) {
+        int ret = 0x00;
         for(int i = 0; i < list.length; i++) { ret += (list[i] >> bit) & 0x01; }
         return ret;
     }
