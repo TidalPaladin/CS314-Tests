@@ -34,7 +34,7 @@ public class CodeCamp {
             		"hammingDistance. neither parameter may equal null, arrays" +
             		" must be equal length.");
         
-        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/   /* Finished T(n) ~= N */
+        /*CS314 STUDENTS: INSERT YOUR CODE HERE*/
         int distance = 0;
         for(int i = 0; i < aList.length; i++) {
             distance += (aList[i] == bList[i]) ? 0 : 1;     // Increment distance for every mismatch
@@ -116,7 +116,6 @@ public class CodeCamp {
 
         // CS314 STUDENTS: ADD YOUR CODE HERE
         //  You can use all methods from the String class and native arrays.
-
 
         /**
          * We dont need to check strings whose length is less than the current maximum vowel count
@@ -222,7 +221,7 @@ public class CodeCamp {
                     "numPeople: " + numPeople + 
                     ", numDaysInYear: " + numDaysInYear);
         
-        //CS314 STUDENTS: ADD YOUR CODE HERE /* T(n) = n^2 / 2
+        //CS314 STUDENTS: ADD YOUR CODE HERE /*
 
         /* Declarations */
         Random r = new Random();
@@ -230,80 +229,19 @@ public class CodeCamp {
         int ret = 0;
 
         /**
-         * This solution is slower but more in the spirit of the experiment
-         * T(n) ~ numPeople
+         * For numPeople < numDaysInyear it is faster to increment a random index of bithdays.
+         * 
+         * Otherwise we could pick a random day and increment it by a random fractionof numPeople
          * 
          */
         for(int i = 0; i < numPeople; i++) { birthdays[r.nextInt(numDaysInYear)]++; }
         
-        /**
-         * This solution is faster but less in the spirit of the experiment
-         * T(n) ~ numDaysInYear
-         * 
-         */
-        /*
-        while(numPeople > 0) {
-            int assign = r.nextInt(numPeople) + 1;              // Pick a random number of people to assign this birthday
-            birthdays[r.nextInt(numDaysInYear)] += assign;      // Pick a random birthday to assign to
-            numPeople -= assign;                                // Shrink sample size to those with an unchosen birthday
-        }
-        */
-
         /* Convert shared birthdays to unique pairs */
         for(int i : birthdays) {
             ret += uniquePairs(i);
         }
 
         return ret;
-    }
-
-
-    /**
-     * @brief Runs the shared birthdays experiment for 182 people as specified in
-     * the assignment
-     * 
-     */
-    public static void runBirthdayExperiment() {
-        final int n = 1000000, days = 365, people = 182;
-        int sum = 0;
-
-        for(int i = 0; i < n; i++) { sum += sharedBirthdays(people, days); }
-
-        System.out.printf("Num people: %d Number of experiments: %d Average number of shared birthdays: %d%n%n",
-            people, n, sum / n
-        );
-
-    }
-
-
-    /**
-     * @brief Runs the shared birthdays experiment with 2-100 people as specified
-     * in the assignment
-     * 
-     */
-    public static void runBirthdayExperiment2() {
-
-        final int n = 50000, days = 365;
-
-        /* Run experiment sets with 2 - 100 people */
-        for(int i = 2; i <= 100; i++) { 
-            
-            /* Run each experiment set 50000 times */
-            int has_shared_birthday = 0;
-            for(int j = 0; j < n; j++) {
-                if( sharedBirthdays(i, days) > 0 ) { has_shared_birthday++; }
-            }
-
-            System.out.printf(
-                "Num people: %d number of experiments with one or more shared birthday: %d, percentage: %f%n",
-                i,
-                has_shared_birthday,
-                (double)has_shared_birthday / n
-            );
-
-        }
-
-
     }
 
 
@@ -463,6 +401,54 @@ public class CodeCamp {
     
     // !!!!! ***** !!!!! ***** !!!!! ****** !!!!! ****** !!!!! ****** !!!!!!
     // CS314 STUDENTS: Put your birthday problem experiement code here:
+
+    /**
+     * @brief Runs the shared birthdays experiment for 182 people as specified in
+     * the assignment
+     * 
+     */
+    public static void runBirthdayExperiment() {
+        final int n = 1000000, days = 365, people = 182;
+        int sum = 0;
+
+        for(int i = 0; i < n; i++) { sum += sharedBirthdays(people, days); }
+
+        System.out.printf("Num people: %d Number of experiments: %d Average number of shared birthdays: %d%n%n",
+            people, n, sum / n
+        );
+
+    }
+
+
+    /**
+     * @brief Runs the shared birthdays experiment with 2-100 people as specified
+     * in the assignment
+     * 
+     */
+    public static void runBirthdayExperiment2() {
+
+        final int n = 50000, days = 365;
+
+        /* Run experiment sets with 2 - 100 people */
+        for(int i = 2; i <= 100; i++) { 
+            
+            /* Run each experiment set 50000 times */
+            int has_shared_birthday = 0;
+            for(int j = 0; j < n; j++) {
+                if( sharedBirthdays(i, days) > 0 ) { has_shared_birthday++; }
+            }
+
+            System.out.printf(
+                "Num people: %d number of experiments with one or more shared birthday: %d, percentage: %f%n",
+                i,
+                has_shared_birthday,
+                (double)has_shared_birthday / n * 100
+            );
+
+        }
+
+
+    }
     
     
     // pre: list != null
