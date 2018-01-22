@@ -62,7 +62,7 @@ public class CodeCamp {
         /*CS314 STUDENTS: INSERT YOUR CODE HERE*/           
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
-        /* Check if arrays are different by looking at the sum of bits for bit index 0-31 */
+        /* Check if arrays are different by looking at the sum of bits from RMB to LMB */
         final int sizeof_int = 32;
         for(int i = 0; i < sizeof_int; i++) {
             if( hashArray(listA, i) != hashArray(listB, i) ) return false;
@@ -74,6 +74,9 @@ public class CodeCamp {
     /**
      * @brief Calculates a hash value for an array at a given bit index.
      * 
+     * @details This calculates the sum of the 'bit'th bits across all elements
+     * in the array. For the arrays to be permutations the sum of bits must be the same
+     * for bit position 0 - 31.
      * 
      * @param list The array to be hashed
      * @param bit The bit index 0-31 to be summed across the array
@@ -123,21 +126,6 @@ public class CodeCamp {
          *  
          * All the vowels are odd ASCII values
          * 
-         * Let vowels.length = V
-         * Let average vowels[i].length = L
-         * 
-         * Bad brute force solution - count vowels for each string no matter what
-         * Any case -> T(n) ~= n * L * V
-         * 
-         * Better brute force solution - dont check strings when length < most_vowels
-         * Best case -> T(n) ~= (length of solution string) * V + n 
-         * Worst case -> T(n) ~= n * L * V 
-         * This should be better when searching for few possible targets or when L is small 
-         * 
-         * We could sort the array by length, n + nlog(n) between copy and sort
-         * Then we check the ith letter for each string, incrementing i after each scan of the array,
-         * and ignoring the portion of the array where vowels[i].length < most_vowels
-         * Worst case -> n + nlog(n) + n * L * V = n * ( L * V + 1 + log(n) )
          */
 
         /* Declarations */
@@ -185,7 +173,7 @@ public class CodeCamp {
         for(char c : char_array) {
 
             /* Save some time by skipping chars that cant possibly be vowels */
-            if( c < 65 || c > 117 || (c > 85 && c < 97) ) continue;
+            if( !couldBeVowel(c) ) continue;
             
             /* Otherwise, check if the char is a vowel, upper or lower case */
             for( char v : vowels ) {
@@ -195,6 +183,22 @@ public class CodeCamp {
         }
 
         return ret;        
+    }
+
+    /**
+     * @brief Checks if a char can possibly be a vowel
+     * 
+     * @details An ASCII vowel must fall within a numerical range and be odd
+     * 
+     * @param c The char to examine
+     * 
+     * @return
+     *   - true if c MAY be a vowel
+     *   - false otherwise
+     */
+    private static boolean couldBeVowel(char c) {
+        if( c < 65 || c > 117 || (c > 85 && c < 97) || c % 2 == 0 ) return false;
+        return true;
     }
 
     
