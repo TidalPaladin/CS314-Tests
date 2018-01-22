@@ -281,8 +281,10 @@ public class CodeCamp {
 
         final int n = 50000, days = 365;
 
+        /* Run experiment sets with 2 - 100 people */
         for(int i = 2; i <= 100; i++) { 
             
+            /* Run each experiment set 50000 times */
             int has_shared_birthday = 0;
             for(int j = 0; j < n; j++) {
                 if( sharedBirthdays(i, days) > 0 ) { has_shared_birthday++; }
