@@ -255,27 +255,26 @@ public class CodeCamp {
 
 
     /**
-     * @brief Runs the shared birthdays experiment with the values specified in
+     * @brief Runs the shared birthdays experiment for 182 people as specified in
      * the assignment
      * 
-     * @return The average number of pairs who share a birthday
-     * 
      */
-    public static long runBirthdayExperiment() {
+    public static void runBirthdayExperiment() {
         final int n = 1000000, days = 365, people = 182;
-        long ret = 0;
+        int sum = 0;
 
-        for(int i = 0; i < n; i++) { ret += sharedBirthdays(people, days); }
+        for(int i = 0; i < n; i++) { sum += sharedBirthdays(people, days); }
 
-        return ret / n;
+        System.out.printf("Num people: %d Number of experiments: %d Average number of shared birthdays: %d%n%n",
+            people, n, sum / n
+        );
 
     }
 
 
     /**
-     * @brief Runs the shared birthdays experiment with v
-     * 
-     * 
+     * @brief Runs the shared birthdays experiment with 2-100 people as specified
+     * in the assignment
      * 
      */
     public static void runBirthdayExperiment2() {
