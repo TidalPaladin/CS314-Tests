@@ -232,17 +232,28 @@ public class CodeCamp {
         }
         */
 
-         /** 
-         * For a given number of people who share a birthday:\
-         * Pairs = N choose 2 = N! / [ (N-2)! 2! ]
-         * => Pairs = N * (N-1) / 2
-         *
-         */
+        /* Convert shared birthdays to unique pairs */
         for(int i : birthdays) {
-            ret +=  i * (i-1) / 2;
+            ret += uniquePairs(i);
         }
 
         return ret;
+    }
+
+
+    /**
+     * @brief Finds the number of unique pairs from a set
+     * 
+     * @details Unique pairings are computed using the binomial equation
+     * Pairs = N choose 2 = N! / [ (N-2)! 2! ] 
+     * = N * (N-1) / 2
+     * 
+     * @param num The number of elements in the set
+     * 
+     * @return The number of unique pairings of two elements
+     */
+    private static int uniquePairs(int num) {
+        return num * (num - 1) / 2;
     }
     
     
