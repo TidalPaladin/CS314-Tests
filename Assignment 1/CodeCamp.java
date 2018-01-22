@@ -63,7 +63,10 @@ public class CodeCamp {
         if(listA.length != listB.length) return false;      /* Permutations must be the same length */
 
         /* Will this have collisions? */
-        return hashArray(listA) == hashArray(listB);
+        for(int i = 0; i < 32; i++) {
+            if( hashArray(listA, i) != hashArray(listB, i) ) return false;
+        }
+        return true;
 
     }
     
@@ -75,14 +78,7 @@ public class CodeCamp {
      * 
      * @return A hash value for the given int
      */
-    private static long hashInt(int num) {
-        long ret = 0;
-        for(int i = 0; i < 32; i++) {
-            int shifted_val = i & ( (num >> i) & 0x01 );
-            ret += shifted_val * Math.pow(31, i);           /* Choose 31 based on documentation for java string class */
-        }
-        return ret;
-    }
+
 
 
     /**
@@ -92,9 +88,9 @@ public class CodeCamp {
      * 
      * @return The hash value
      */
-    private static long hashArray(int[] list) {
-        long ret = 0;
-        for(int i : list) { ret += hashInt(i); }
+    private static long hashArray(int[] list, int bit) {
+        long ret = 0x00;
+        for(int i = 0; i < list.length; i++) { ret += (list[i] >> bit) & 0x01; }
         return ret;
     }
 
