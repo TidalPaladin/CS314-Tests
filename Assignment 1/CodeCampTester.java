@@ -94,9 +94,49 @@ public class CodeCampTester {
 
 
     /**
-     * @brief Compares the hamming distance
+     * @brief Compares the hamming distance for two equal length arrays
+     * 
+     * @param tries The number of repetitions of the test to perform
+     * @param size The size of the array
+     * 
      */
-    public static void hammingTest1() {
+    public static void hammingTest1(final int tries, final int size) {
+
+        final String TEST_HEADER = "hammingDistance() test 1";
+        final boolean actualBool;
+
+        int[] original = new int[size];
+        int[] test = new int[size];
+
+        for(int x = 1; x <= tries; x++) {
+
+            /* Populate original and test */
+            for(int i = 0; i < size; i++) {
+                original[i] = r.nextInt();
+                test[i] = original[i];
+            }
+
+            /* Pick a random number of changes to induce */
+            final int MAXIMUM_CHANGES = size / 2;
+            final int CHANGES = r.nextInt(MAXIMUM_CHANGES);
+
+            /* Make changes evenly spaced throughout second array */
+            final int STEP = size / CHANGES;
+            for(int i = 0; i < size; i += STEP) {
+                test[i] *= r.nextInt(1000) + 2;
+            }
+
+            /* Check result */
+            final int RESULT = CodeCamp.hammingDistance(original, test);
+            actualBool = ( RESULT == CHANGES );
+            System.out.printf("Iteration %d - Expected: %d \t Actual: %d" + newline, x, CHANGES, RESULT);
+            printResult(TEST_HEADER, expectedBool, actualBool);
+
+
+        }
+
+
+        
 
     }
 
@@ -118,10 +158,10 @@ public class CodeCampTester {
     public static void isPermutationTest1(final int tries, final int size, final boolean expectedBool) {
 
         /* Fixed */
-        final String test_header = "isPermutation() test 1 - randomized true stress test";
-        final boolean actualBool;
+        final String TEST_HEADER = "isPermutation() test 1 - randomized stress test";
+        boolean actualBool;
 
-        System.out.println(newline + test_header);
+        System.out.println(newline + TEST_HEADER);
 
         /* Outer loop rerun test 'tries' times */
         for(int x = 0; x < tries; x++) {
@@ -133,7 +173,7 @@ public class CodeCampTester {
             for(int i : original) { i = r.nextInt(); }
 
             /* Fill scrambled array */
-            for(int i = 0; i < size; i++) {
+            for(int i = 1; i <= size; i++) {
                 scrabled[i] = expectedBool ? original[i] : r.nextInt();
             }
 
@@ -150,8 +190,8 @@ public class CodeCampTester {
             }
 
             actualBool = CodeCamp.isPermutation(original, scrambled);
-            System.out.printf("Iteration %d - Expected: %b \t Actual: %b" + newline, x+1, expectedBool, actualBool);
-            printResult(test_header, expectedBool, actualBool);
+            System.out.printf("Iteration %d - Expected: %b \t Actual: %b" + newline, x, expectedBool, actualBool);
+            printResult(TEST_HEADER, expectedBool, actualBool);
         }
     }
 
@@ -166,7 +206,7 @@ public class CodeCampTester {
      */
     public static void isPermutationTest2() {
 
-        String test_header = "isPermutation() test 2 - mean and standard deviation";
+        final String TEST_HEADER = "isPermutation() test 2 - mean and standard deviation";
         final boolean expectedBool = false, actualBool;
 
         /* Both mean = 6, stdev = 4 */
@@ -174,9 +214,9 @@ public class CodeCampTester {
         int[] perm2 = { 4, 4, 4, 12 };
         actualBool = CodeCamp.isPermutation(perm1, perm2);
 
-        System.out.println(newline + test_header);
+        System.out.println(newline + TEST_HEADER);
         System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
-        printResult(test_header, expectedBool, actualBool);
+        printResult(TEST_HEADER, expectedBool, actualBool);
     }
 
     public static void mostVowelsTest1() {
@@ -203,7 +243,7 @@ public class CodeCampTester {
         
     }
 
-    private static void printResult(String header, boolean expected, boolean actual) {
+    private static void printResult(final String header, final boolean expected, final boolean actual) {
         System.out.print( expected == actual ? "Passed test: " : " ***** FAILED *****" );
         System.out.println("\t" + header);
     }
