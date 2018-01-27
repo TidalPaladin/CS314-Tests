@@ -7,9 +7,9 @@ import java.util.Random;
 
 /*  Student information for assignment:
  *
- *  Name:
- *  email address:
- *  UTEID:
+ *  Name:   Scott Chase Waggener
+ *  email address:  tidal@utexas.edu
+ *  UTEID:  scw955
  *  Section 5 digit ID: 
  *  Grader name:
  *  Number of slip days used on this assignment:
@@ -30,59 +30,12 @@ public class CodeCampTester {
 
         
         // CS314 Students: add tests here.
-        String test_header;
-        boolean expectedBool, actualBool;
-        int[] a, b;
-        final int perm_tries = 100;
-
-        /* isPermutation() test 2 - randomized true stress test */
-        for(int x = 0; x < perm_tries; x++) {
-        test_header = "isPermutation() test 1 - randomized true stress test";
-        final int perm_size = 100000;
-        
-        int[] rperm_1 = new int[perm_size];
-        int[] rperm_2 = new int[perm_size];
-        expectedBool = true;
-
-        for(int i = 0; i < perm_size; i++) {
-            rperm_1[i] = r.nextInt();
-            rperm_2[i] = rperm_1[i];
-        }
-
-        for(int i = 0; i < perm_size; i++) {
-            int temp = rperm_1[i];
-            int random_i = r.nextInt(perm_size);
-            rperm_1[i] = rperm_1[random_i];
-            rperm_1[random_i] = temp; 
-        }
-
-        actualBool = CodeCamp.isPermutation(rperm_1, rperm_2);
-        System.out.println(newline + test_header);
-        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
-        printResult(test_header, expectedBool, actualBool);
-
+        isPermutationTest1(100, 10000, true);  
+        isPermutationTest1(100, 10000, false);
+        isPermutationTest2();
 
         /* isPermutation() test 2 - randomized false stress test */
-        test_header = "isPermutation() test 2 - randomized false stress test";
-        expectedBool = false;
-        for(int i = 0; i < perm_size; i++) { rperm_1[i] = r.nextInt(); }
-
-        actualBool = CodeCamp.isPermutation(rperm_1, rperm_2);
-        System.out.println(newline + test_header);
-        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
-        printResult(test_header, expectedBool, actualBool);
-        }
-
-        /* isPermutation() test 1 - mean / standard deviation */
-        /* This test is good at tripping up mean/stdev or hash based approaches */
-        test_header = "isPermutation() test 3 - mean and standard deviation";
-        int[] perm1 = { 8, 8, 8, 0 };
-        int[] perm2 = { 4, 4, 4, 12 };
-        expectedBool = false;
-        actualBool = CodeCamp.isPermutation(perm1, perm2);
-        System.out.println(newline + test_header);
-        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
-        printResult(test_header, expectedBool, actualBool);
+        
         
 
          /* Stress test permutation */
@@ -137,6 +90,118 @@ public class CodeCampTester {
     //     }
     //     return result;
     // }
+
+
+
+    /**
+     * @brief Compares the hamming distance
+     */
+    public static void hammingTest1() {
+
+    }
+
+    public static void hammingTest2() {
+
+    }
+
+    /**
+     * @brief Tests isPermuatation with a randomly generated data set with an expected
+     * result of true.
+     * 
+     * @param tries How many repetitions of the test to perform
+     * @param size How many elements will be in each array
+     * @param expectedBool Second array is scrambled if this is true, and a unique set if false
+     * 
+     * @pre tries > 0, size > 1
+     * 
+     */
+    public static void isPermutationTest1(final int tries, final int size, final boolean expectedBool) {
+
+        /* Fixed */
+        final String test_header = "isPermutation() test 1 - randomized true stress test";
+        final boolean actualBool;
+
+        System.out.println(newline + test_header);
+
+        /* Outer loop rerun test 'tries' times */
+        for(int x = 0; x < tries; x++) {
+
+            int[] original = new int[size];
+            int[] scrambled = new int[size];
+
+            /* Fill the original array */
+            for(int i : original) { i = r.nextInt(); }
+
+            /* Fill scrambled array */
+            for(int i = 0; i < size; i++) {
+                scrabled[i] = expectedBool ? original[i] : r.nextInt();
+            }
+
+            /* Handle scrambling of data if needed */
+            if( expectedBool ) {
+
+                for(int i = 0; i < size; i++) {
+                    int temp = original[i];
+                    int random_i = r.nextInt(size);
+                    original[i] = original[random_i];
+                    original[random_i] = temp; 
+                }
+
+            }
+
+            actualBool = CodeCamp.isPermutation(original, scrambled);
+            System.out.printf("Iteration %d - Expected: %b \t Actual: %b" + newline, x+1, expectedBool, actualBool);
+            printResult(test_header, expectedBool, actualBool);
+        }
+    }
+
+
+   
+
+
+    /**
+     * @brief Tests isPermutation using a premade dataset that will confuse approaches based 
+     * on statistics (mean / standard deviation)
+     * 
+     */
+    public static void isPermutationTest2() {
+
+        String test_header = "isPermutation() test 2 - mean and standard deviation";
+        final boolean expectedBool = false, actualBool;
+
+        /* Both mean = 6, stdev = 4 */
+        int[] perm1 = { 8, 8, 8, 0 };   
+        int[] perm2 = { 4, 4, 4, 12 };
+        actualBool = CodeCamp.isPermutation(perm1, perm2);
+
+        System.out.println(newline + test_header);
+        System.out.printf("Expected: %b \t Actual: %b" + newline, expectedBool, actualBool);
+        printResult(test_header, expectedBool, actualBool);
+    }
+
+    public static void mostVowelsTest1() {
+        
+    }
+
+    public static void mostVowelsTest2() {
+        
+    }
+
+    public static void queensAreSafeTest1() {
+
+    }
+
+    public static void queensAreSafeTest2() {
+
+    }
+
+    public static void plotTest1() {
+
+    }
+
+    public static void plotTest2() {
+        
+    }
 
     private static void printResult(String header, boolean expected, boolean actual) {
         System.out.print( expected == actual ? "Passed test: " : " ***** FAILED *****" );
